@@ -10,7 +10,8 @@ li {
   z-index: 9;
   position: relative;
   text-align: center;
-  background: #ddd;
+  background: #525259;
+  color: #F0EA81;
 }
 dd {
   position: absolute;
