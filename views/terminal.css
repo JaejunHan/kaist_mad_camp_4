@@ -1,0 +1,67 @@
+body {
+  font-family: helvetica, sans-serif, arial;
+  font-size: 1em;
+  color: #111;
+  width: 100vw;
+}
+
+h1 {
+  text-align: center;
+}
+
+#terminal-container {
+  width: 100%;
+  height: 40%;
+  display: inline-block;
+  padding: 2px;
+  position: fixed;
+}
+
+.function {
+  display: inline-block;
+  float: right;
+}
+
+#terminal-container .terminal {
+  background-color: #111;
+  color: #fafafa;
+  padding: 2px;
+}
+
+#terminal-container .terminal:focus .terminal-cursor {
+  background-color: #fafafa;
+}
+#main {
+  display: flex;
+  height: 100%;
+  background-color: #282a36;
+}
+#term_and_vim {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  padding: 2px;
+}
+#vim {
+  width: 100%;
+  height: 60%;
+  white-space: wrap;
+}
+#editor {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  color: #fafafa;
+}
+#ls_div {
+  width: 20%;
+  height: 100%;
+  overflow: scroll;
+}
+.content {
+  width: 100%;
+  margin-left: auto;
+}
+.file_edit{
+  float: right;
+}

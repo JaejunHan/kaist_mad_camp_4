@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>SSH Terminal</title>
+    <link rel="stylesheet" href="xterm/dist/xterm.css" />
+    <script
+      src="https://kit.fontawesome.com/4606fd314b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="xterm/dist/xterm.js"></script>
+    <script src="xterm/dist/addons/fit/fit.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
+    <script src="codemirror/lib/codemirror.js"></script>
+    <link href="codemirror/lib/codemirror.css" rel="stylesheet" />
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/addon/edit/closetag.js"></script>
+    <script src="codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror/addon/edit/closebrackets.js"></script>
+    <script src="codemirror/addon/comment/comment.js"></script>
+    <script src="codemirror/addon/fold/foldcode.js"></script>
+    <script src="codemirror/addon/fold/foldgutter.js"></script>
+    <script src="codemirror/addon/fold/brace-fold.js"></script>
+    <link href="codemirror/theme/dracula.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="tab.css" />
+    <link rel="stylesheet" href="terminal.css" />
+
+    <script>
+      var socket;
+    </script>
+    <style>
+      #save-btn {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        border: 1px solid skyblue;
+        background-color: rgba(0, 0, 0, 0);
+        color: skyblue;
+        padding: 5px;
+        width: 7em;
+        height: 4em;
+        font-size: medium;
+      }
+      #save-btn:hover {
+        color: white;
+        background-color: skyblue;
+      }
+    </style>
+    <% include ./terminal.ejs %>
+  </head>
+
+  <body style="overflow-y: auto; overflow-x: hidden">
+    <div id="main">
+      <div id="ls_div">
+        <div class = "file_edit">
+          <i class="fa-solid fa-folder-plus" style="color: #E6DC5E;"></i>
+          <i class="fa-solid fa-file-circle-plus" style="color: #fafafa;"></i>
+          <i class="fa-solid fa-trash-can" style="color: #EB2A23;"></i>
+        </div>
+        <div></div>
+        <div class="content dir" value="./">
+          <i class="fa-solid fa-folder-closed" style="color: #E6DC5E;"></i><span class="text" style="color: #fafafa;">./</span>
+        </div>
+        <!--
+        <div class = "content file" value = './'>
+          <i class="fa-solid fa-file"></i><span>./</span>
+        </div>
+      -->
+    </div>
+
+      <div id="term_and_vim">
+        <button class="save-btn" type="button" id="save-btn">Save</button>
+        <% include ./save.ejs %>
+        <ul class="tab-wrap"></ul>
+        <div class="editor-wrap"></div>
+        <!-- <textarea id="editor">Hello, World</textarea> -->
+        <!-- <% include ./editor.ejs %> -->
+        <div style="color: #fafafa;">TERMINAL</div>
+        <div id="terminal-container"></div>
+      </div>
+    </div>
+    <% include ./project.ejs %>
+  </body>
+</html>

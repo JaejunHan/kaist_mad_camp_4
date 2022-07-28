@@ -1,0 +1,26 @@
+<script>
+    $(".save-btn").click(function () {
+      var dir;
+      var value;
+      console.log("click!");
+      const tab = $(".tab-wrap").find("li");
+      for (var t in tab) {
+        if ($(this).hasClass("active")) {
+          dir = $(this).attr("value");
+        }
+      }
+      dir = $(".active").attr("value");
+      //console.log($(".active").attr("value"));
+      let div_textarea = $(".div_textarea").not(".style");
+      console.log(div_textarea);
+      let textarea = document.querySelector(
+        ".div_textarea:not(.style) .CodeMirror"
+      );
+      value = textarea.CodeMirror.getValue();
+      
+      // 정상
+      //console.log("dir="+dir+"value"+value);
+      
+      socket.emit("save", dir, value);
+    });
+  </script>

@@ -1,0 +1,161 @@
+<script>
+  var cd_result = ""; // 파일 경로
+  var dir_or_file_name = ""; // 선택한 파일 또는 경로의 이름
+  var selector; //선택한 파일 또는 경로의 셀렉터
+  $(document).ready(function () {
+    // 닫힌 폴더를 클릭했을 때 폴더 열리기
+    $(document).on("click", ".fa-folder-closed", function () {
+      selector = $(this).parent('.content');
+      $(".content").css("background-color", "#282a36");
+      $(this).parent().css("background-color", "#7DD4EB");
+      insert_position = $(this).parent();
+      var num_dir = $(this).parents(".dir").length;
+      var hello = $(this);
+      var arr = [];
+      for (var i = 0; i < num_dir; i++) {
+        hello = hello.parent(".dir");
+        arr.unshift(hello.attr("value"));
+      }
+      var value = arr.join(""); // 절대 경로를 담을 변수
+      dir_or_file_name = "";
+      cd_result = value;
+      var class_name = $(this).parent().children()[0].className;
+      $(this).parent().children()[0].className = "fa-solid fa-folder-open";
+      if ($(this).parent().children(".content").length > 0) {
+        $(this).parent().children(".content").show();
+        return;
+      }
+      //$(this).parent().append("<div class = \"content dir\" value = './' style=\"width: calc(100% - 10px); flex-grow: 1;\"><i class=\"fa-solid fa-folder-closed\"></i><span>./</span></div>" + "<div class = \"content file\" value = './'><i class=\"fa-solid fa-file\"></i><span>./</span></div>");
+
+      socket.emit(
+        "ls",
+        "ls -al " +
+          value +
+          ' | grep "^d"\nls -al ' +
+          value +
+          ' | grep -v "^d"\n'
+      );
+      return;
+    });
+  });
+
+  // 열린 폴더를 클릭했을 때 이벤트
+  $(document).on("click", ".fa-folder-open", function () {
+    selector = $(this).parent('.content');
+    insert_position = $(this).parent();
+    dir_or_file_name = "";
+    $(".content").css("background-color", "#282a36");
+    $(this).parent().css("background-color", "#7DD4EB");
+    $(this).parent().children()[0].className = "fa-solid fa-folder-closed";
+    $(this).parent().children(".content").hide();
+    return;
+  });
+
+  // 파일을 클릭했을 때
+  $(document).on("click", ".fa-file", function () {
+    selector = $(this).parent('.content');
+    insert_position = $(this).parents('.dir')
+    dir_or_file_name = $(this).parents('.file').attr("value").slice(0, -1);
+    console.log(dir_or_file_name);
+    $(".content").css("background-color", "#282a36");
+    $(this).parent().css("background-color", "#7DD4EB");
+    var num_dir = $(this).parents(".dir").length;
+    var this_for = $(this);
+    var arr = [];
+    for (var i = 0; i < num_dir; i++) {
+      this_for = this_for.parents(".dir");
+      arr.unshift(this_for.attr("value"));
+    }
+    var value = arr.join(""); // 절대 경로를 담을 변수
+    
+    cd_result = value;
+
+    var filename = $(this).parent().children(".text").text();
+    socket.emit("file_contents", "cat " + value + filename + "\n");
+    return;
+  });
+
+  var idx;
+  $(document).on("click", ".tab.li", function () {
+    idx = $(".tab-wrap").find("li").length + 1;
+    idx = $(this).index();
+    $(".tab-wrap").find("li").removeClass("active");
+    $(this).addClass("active");
+    $(".div_textarea").hide();
+    $(".div_textarea").eq(idx).show();
+    //$(".editor-wrap").find(".editor").css("display", "none");
+    //$(".editor-wrap").find(".editor").eq(idx).css("display", "block");
+  });
+
+  $(document).on("click", ".tab.a", function () {
+    idx = $(this).parent().index();
+    $(this).parent().remove();
+    $(".tab-wrap")
+      .parent()
+      .parent()
+      .find("li")
+      .eq(idx - 1)
+      .addClass("active");
+    $(".div_textarea").eq(idx).remove();
+    //$(".editor-wrap").find(".editor").eq(idx).remove();
+    //$(".editor-wrap").find(".editor").eq(idx).css("display", "block");
+    return false;
+  });
+
+  // 폴더 만들기 했을 때
+  $(document).on("click", ".fa-folder-plus", function () {
+    insert_position.append(
+      '<div class = "content dir" ' +
+        'style="width: calc(100% - 10px); flex-grow: 1;"><i class="fa-solid fa-folder-closed" style="color: #E6DC5E;"></i>'
+        + '<input id=\'name\' onkeyup=\'printName()\' value = "new_folder" style="color: #111;" class =\'text_input_folder\'>' +
+        "</input></div>"
+    );
+  });
+  // 파일 만들기 했을 때
+  $(document).on("click", ".fa-file-circle-plus", function () {
+    insert_position.append(
+      '<div class = "content file" ' +
+         'style="width: calc(100% - 10px); flex-grow: 1;"><i style="color: #fafafa;" class="fa-solid fa-file"></i>'
+        + '<input id=\'name\' onkeyup=\'printName()\' value = "new_file" style="color: #111;" class =\'text_input_file\'>' +
+        "</input></div>"
+    );
+  });
+  // 폴더 및 파일을 삭제하기 누를 때
+  $(document).on("click", ".fa-trash-can", function () {
+    selector.remove();
+    socket.emit("delete", "rm -r "+cd_result+dir_or_file_name+"\n");
+  });
+  // 폴더 입력 받는 부분 리스너
+  $(document).on('keyup', '.text_input_folder', function(e){
+    // 엔터키가 눌리면
+    if (e.key == 'Enter'){
+      const name = document.getElementById('name').value;
+      const temp_loc = $('#name');
+      $('#name').parent('.dir').attr('value', name+"/");
+      temp_loc.parent().append('<span style="color: #fafafa;" class =\'text\'>' +
+        name +
+      '</span></div>');
+      document.getElementById('name').remove();
+      socket.emit("mkdir", "mkdir "+cd_result+name+"\n");
+    }
+  });
+  // 파일 입력 받는 부분 리스너
+  $(document).on('keyup', '.text_input_file', function(e){
+    // 엔터키가 눌리면
+    if (e.key == 'Enter'){
+      const name = document.getElementById('name').value;
+      $('#name').parent('.file').attr('value', name+"/");
+      console.log($('.name').parent().attr('value'));
+      const temp_loc = $('#name');
+      temp_loc.parent().append('<span style="color: #fafafa;" class =\'text\'>' +
+        name +
+      '</span></div>');
+      document.getElementById('name').remove();
+      socket.emit("touch", "touch "+cd_result+name+"\n");
+    }
+  });
+  
+  function printName() {
+    const name = document.getElementById('name').value;
+  }
+</script>
