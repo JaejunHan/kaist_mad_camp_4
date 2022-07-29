@@ -1,11 +1,19 @@
 <script src="./editor.js"></script>
 <script>
   var insert_position;
+
   window.addEventListener(
     "load",
     function () {
       var data = "";
       var editors = {};
+
+      let imageId;
+      let containerId;
+      let tagID;
+      let language;
+      let questionId;
+      let answerId;
 
       var terminalContainer = document.getElementById("terminal-container");
       var term = new Terminal({ cursorBlink: true });
@@ -13,6 +21,34 @@
       term.fit();
 
       socket = io.connect();
+
+      axios({
+        method: 'get',
+        url: 'http://192.249.18.218:80/getdocker'
+      })
+      .then(function (res) => {
+        console.log("connect to web page server!!");
+        imageId = res.imageId;
+        containerId = res.containerId;
+        tagId = res.tagId;
+        language = res.language;
+        questionId = res.questionId;
+        answerId = res.answerId;
+        console.log(imageId);
+        console.log(containerId);
+        console.log(tagId);
+        console.log(language);
+        console.log(questionId);
+        console.log(answerId);
+      })
+
+      // const instance = axios.create({
+      //   // baseURL: process.env.VUE_APP_API_URL,
+      //   baseURL: "http://192.249.18.218:80/",
+      // });
+
+      // const res = await instance.get("getdocker", {}).data;
+
 
       // ls 결과를 받는 것
       socket.on("ls_result", function (arg) {
@@ -45,7 +81,7 @@
       socket.on("file", function (chunk) {
         //data = "";
         data += chunk;
-        console.log("data="+data);
+        console.log("data=" + data);
       });
       socket.on("file_end", function (filename, dir) {
         var idx;
@@ -56,7 +92,13 @@
           idx = $tab.find("li").length + 1;
           //# Tabs limits = 20
           if ($tab.find("li").length < 20) {
-            $tab.append("<li class = 'tab li' value='"+dir+"'>"+filename + "<a class='tab a'>X</a></li>");
+            $tab.append(
+              "<li class = 'tab li' value='" +
+                dir +
+                "'>" +
+                filename +
+                "<a class='tab a'>X</a></li>"
+            );
             $editor.append(
               '<div class = "div_textarea"><textarea id="editor' +
                 idx +
@@ -85,7 +127,7 @@
           $tab.on("click", "li", function () {
           });
           */
-         /*
+          /*
           $tab.one("click", "a", function () {
           });
           */
@@ -112,8 +154,7 @@
     },
     false
   );
-  
-  
+
   $(document).bind("keyup keydown", function (e) {
     if (e.ctrlKey && e.which == 83) {
       var dir;
@@ -135,11 +176,10 @@
       console.log(value);
       // todo
       // dir이 잘 들어가는지 확인하기(\n이 없는지)
-      console.log("저장 시 디렉토리"+dir);
+      console.log("저장 시 디렉토리" + dir);
 
       socket.emit("save", dir, value);
       return false;
     }
   });
-  
 </script>
