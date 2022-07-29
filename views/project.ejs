@@ -25,7 +25,6 @@
         $(this).parent().children(".content").show();
         return;
       }
-      //$(this).parent().append("<div class = \"content dir\" value = './' style=\"width: calc(100% - 10px); flex-grow: 1;\"><i class=\"fa-solid fa-folder-closed\"></i><span>./</span></div>" + "<div class = \"content file\" value = './'><i class=\"fa-solid fa-file\"></i><span>./</span></div>");
 
       socket.emit(
         "ls",

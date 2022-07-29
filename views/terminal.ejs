@@ -163,14 +163,14 @@
           //# Tabs limits = 20
           if ($tab.find("li").length < 20) {
             $tab.append(
-              "<li class = 'tab li' value='" +
+              "<li style = 'float: left;display: inline-block;' class = 'tab li' value='" +
                 dir +
                 "'>" +
                 filename +
                 "<a class='tab a'>X</a></li>"
             );
             $editor.append(
-              '<div class = "div_textarea"><textarea id="editor' +
+              '<div class = "div_textarea" style = "height: 100%;"><textarea style = "height: 100%;" id="editor' +
                 idx +
                 '"' +
                 " >editor" +
