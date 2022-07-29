@@ -80,13 +80,6 @@ io.on("connection", function (socket) {
       password: "gkswowns123", // Set password or use PrivateKey
       // privateKey: require("fs").readFileSync("PATH OF KEY ") // <---- Uncomment this if you want to use privateKey ( Example : AWS )
     });
-  // .connect({
-  //   host: "172.17.0.2",
-  //   port: "22", // Generally 22 but some server have diffrent port for security Reson
-  //   username: "root", // user name
-  //   password: "1234" // Set password or use PrivateKey
-  //   // privateKey: require("fs").readFileSync("PATH OF KEY ") // <---- Uncomment this if you want to use privateKey ( Example : AWS )
-  // });
   var ssh_ls = new SSHClient();
   var is_sent = 0;
   
@@ -276,4 +269,5 @@ io.on("connection", function (socket) {
       password: "gkswowns123", // Set password or use PrivateKey
       // privateKey: require("fs").readFileSync("PATH OF KEY ") // <---- Uncomment this if you want to use privateKey ( Example : AWS )
     });
+    
 });
