@@ -33,7 +33,7 @@
       #save-btn {
         position: absolute;
         top: 2%;
-        right: 5%;
+        right: 10%;
         border: 1px solid skyblue;
         background-color: rgba(0, 0, 0, 0);
         color: skyblue;
@@ -46,11 +46,27 @@
         color: white;
         background-color: skyblue;
       }
+      #exit-btn {
+        position: absolute;
+        top: 2%;
+        right: 1%;
+        border: 1px solid red;
+        background-color: rgba(0, 0, 0, 0);
+        color: red;
+        padding: 5px;
+        width: 7em;
+        height: 3em;
+        font-size: medium;
+      }
+      #exit-btn:hover {
+        color: white;
+        background-color: red;
+      }
     </style>
     <% include ./terminal.ejs %>
   </head>
 
-  <body style="overflow-y: auto; overflow-x: hidden">
+  <body style="overflow-y: auto; overflow-x: hidden" class="main_body">
     <div id="main">
       <div id="ls_div">
         <div class = "file_edit">
@@ -72,6 +88,7 @@
       <div id="term_and_vim">
         <div class ="btn_and_tab">
           <button class="save-btn" type="button" id="save-btn">Save</button>
+          <button class="exit-btn" type="button" id="exit-btn">Exit</button>
           <% include ./save.ejs %>
           <ul class="tab-wrap"></ul>
         </div>
