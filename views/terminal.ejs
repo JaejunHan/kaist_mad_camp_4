@@ -69,7 +69,7 @@
 
         const instance = axios.create({
           // baseURL: process.env.VUE_APP_API_URL,
-          baseURL: "http://143.248.74.134:80/",
+          baseURL: "http://143.248.196.31:80/",
         });
         console.log("commit!!");
         instance.post("compiler/commit", {
@@ -84,7 +84,7 @@
 
       $(".exit-btn").click(function () {
         const instance = axios.create({
-          baseURL: "http://143.248.74.134:80/",
+          baseURL: "http://143.248.196.31:80/",
         });
         console.log("disconnect!!");
         instance.put("compiler/disconnect", {
@@ -95,7 +95,7 @@
           questionId: questionId,
           answerId: answerId,
         });
-        window.close();
+        //window.close();
       });
 
       // const instance = axios.create({

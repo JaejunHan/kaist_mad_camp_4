@@ -113,13 +113,14 @@ io.on("connection", function (socket) {
                 const words_2 = words[i].split(" ");
                 if (is_sent == 1) {
                   var str_cmp = words_2[words_2.length - 1].trim();
+                  console.log("str_cmp: " + str_cmp);
                   if (!(str_cmp == "")) {
                     // 디렉토리, 파일 리스트를 리스트에 넣음.
                     if (
                       str_cmp != '"^d"' &&
                       str_cmp != ".." &&
                       str_cmp != "." &&
-                      !(str_cmp.includes("[?2004"))
+                      !str_cmp.includes("[?2004")
                     ) {
                       data.push(words_2[0].trim()[0]);
                       data.push(words_2[words_2.length - 1].trim());
@@ -226,7 +227,7 @@ io.on("connection", function (socket) {
               return;
             }
             if (utf8.decode(d.toString("binary")).includes("root@")) {
-              console.log("기호 2번"+utf8.decode(d.toString("binary")));
+              console.log("기호 2번" + utf8.decode(d.toString("binary")));
               return;
             }
             if (utf8.decode(d.toString("binary")).includes("END")) {
@@ -297,5 +298,4 @@ io.on("connection", function (socket) {
       password: "1234", // Set password or use PrivateKey
       // privateKey: require("fs").readFileSync("PATH OF KEY ") // <---- Uncomment this if you want to use privateKey ( Example : AWS )
     });
-    
 });
