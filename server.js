@@ -117,7 +117,8 @@ io.on("connection", function (socket) {
                     if (
                       str_cmp != '"^d"' &&
                       str_cmp != ".." &&
-                      str_cmp != "."
+                      str_cmp != "." &&
+                      !(str_cmp.includes("[?2004"))
                     ) {
                       data.push(words_2[0].trim()[0]);
                       data.push(words_2[words_2.length - 1].trim());
@@ -214,7 +215,7 @@ io.on("connection", function (socket) {
               console.log("기호 1반");
               return;
             }
-            if (utf8.decode(d.toString("binary")).includes("root@camp-41:")) {
+            if (utf8.decode(d.toString("binary")).includes("root@")) {
               console.log("기호 2번"+utf8.decode(d.toString("binary")));
               return;
             }
