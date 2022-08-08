@@ -37,6 +37,7 @@ $ node server.js
 #  Technique Used
 - Nodejs
 - Xterm.js
+- socket.io
 - JQUERY
 - HTML
 - CSS
