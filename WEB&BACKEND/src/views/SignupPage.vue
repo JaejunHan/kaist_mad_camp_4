@@ -1,0 +1,22 @@
+<template>
+  <div>
+    <h1 class="page-header">회원 가입 페이지</h1>
+    <SignupForm></SignupForm>
+  </div>
+</template>
+
+<script>
+import SignupForm from "@/components/SignupForm.vue";
+
+export default {
+  components: {
+    SignupForm,
+  },
+  created() {
+    this.$store.commit("setUserEmail", localStorage.getItem("userEmail"));
+    this.$store.commit("setUserName", localStorage.getItem("userName"));
+  },
+};
+</script>
+
+<style></style>
