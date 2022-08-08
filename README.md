@@ -4,7 +4,7 @@
 
 <br>
 
-# **1. Introdutcion of the Project**
+# **1. Introduction to the Project**
 
 &nbsp; We make a new web named QUEUE OVERFLOW. It is similar to Stack Overflow which is famous Q&A website among programers. The main difference between our project and Stack Overflow is whether the website provides Docker container(or similarly, virtual machine) for every Questions. The benefit for using Docker container or Docker Images is that questioner can ask there question with their codes. Anyone can see its codes without version problem and can debugs its codes. Also, using WEB IDE which is connected to Docker Container, everybody can run and check the answer’s code. As a result, this project gets rid of worries for checking whether the code is right or not.
 
