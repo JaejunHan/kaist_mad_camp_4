@@ -223,24 +223,17 @@ io.on("connection", function (socket) {
               return;
             }
             if (utf8.decode(d.toString("binary")).includes(cat_command)) {
-              console.log("기호 1반");
               return;
             }
             if (utf8.decode(d.toString("binary")).includes("root@")) {
-              console.log("기호 2번" + utf8.decode(d.toString("binary")));
               return;
             }
             if (utf8.decode(d.toString("binary")).includes("END")) {
-              console.log("기호 3반" + utf8.decode(d.toString("binary")));
               socket.emit("file_end", filename, dir);
               //console.log("end");
               return;
             }
             if (utf8.decode(d.toString("binary")).includes("cat >")) {
-              console.log("기호 4반");
-              console.log(
-                "cat >가 포함되어 빠지는 output :" +
-                  utf8.decode(d.toString("binary"))
               );
               if (utf8.decode(d.toString("binary")).split("\n").length > 2) {
                 // 길이가 깁니다!!
@@ -249,13 +242,6 @@ io.on("connection", function (socket) {
                     .decode(d.toString("binary"))
                     .includes("cat > " + dir_file_save)
                 ) {
-                  console.log("4번에서 길이가 길고 포함하고 있습니다.");
-                  console.log(
-                    "예상한 값입니다." +
-                      utf8
-                        .decode(d.toString("binary"))
-                        .split("cat > " + dir_file_save)[1]
-                  );
                   socket.emit(
                     "file",
                     utf8
@@ -268,7 +254,6 @@ io.on("connection", function (socket) {
             }
 
             if (is_file_sent == 1) {
-              console.log("기호 5반" + utf8.decode(d.toString("binary")));
               socket.emit("file", utf8.decode(d.toString("binary")));
               //console.log(utf8.decode(d.toString("binary")));
             }
@@ -285,11 +270,6 @@ io.on("connection", function (socket) {
     })
     .on("error", function (err) {
       console.error(err);
-      /*console.log(err);
-      socket.emit(
-        "data",
-        "\r\n*** SSH CONNECTION ERROR: " + err.message + " ***\r\n"
-      );*/
     })
     .connect({
       host: "127.0.0.1",
